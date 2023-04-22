@@ -10,8 +10,8 @@ config_version=5
 
 [application]
 
-config/name="##VAR_GAME_NAME"
-run/main_scene="res://src/Start.tscn"
+config/name="time-detective"
+run/main_scene="res://src/game.tscn"
 config/features=PackedStringArray("4.0")
 boot_splash/bg_color=Color(0.101961, 0.101961, 0.101961, 1)
 config/icon="res://icon.png"
@@ -29,6 +29,9 @@ gdscript/warnings/return_value_discarded=false
 
 [display]
 
+window/size/viewport_width=960
+window/size/viewport_height=540
+window/stretch/mode="canvas_items"
 window/size/width=1920
 window/size/height=1080
 
@@ -95,5 +98,6 @@ locale_filter=[0, []]
 
 [rendering]
 
+textures/canvas_textures/default_texture_filter=0
 environment/default_clear_color=Color(0.101961, 0.101961, 0.101961, 1)
 environment/default_environment="res://default_env.tres"
