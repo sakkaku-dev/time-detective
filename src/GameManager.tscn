@@ -2,11 +2,13 @@
 
 [ext_resource type="Script" path="res://src/GameManager.gd" id="1"]
 [ext_resource type="PackedScene" uid="uid://dhj5flkbbys7n" path="res://src/player/player.tscn" id="2_aq8sa"]
-[ext_resource type="Script" path="res://addons/input-system/PlayerInput.gd" id="2_rwc5a"]
+[ext_resource type="Script" path="res://src/player/InputRecorder.gd" id="3_kf00f"]
 
-[node name="GameManager" type="Node"]
+[node name="GameManager" type="Node" node_paths=PackedStringArray("recorder")]
 script = ExtResource("1")
 player_scene = ExtResource("2_aq8sa")
+recorder = NodePath("InputRecorder")
 
-[node name="PlayerInput" type="Node" parent="."]
-script = ExtResource("2_rwc5a")
+[node name="InputRecorder" type="Node" parent="."]
+script = ExtResource("3_kf00f")
+actions = Array[String](["move_left", "move_right", "jump", "interact", "time_travel"])
