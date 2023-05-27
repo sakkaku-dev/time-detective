@@ -21,8 +21,7 @@ func record_event(ev: InputEvent):
 	duration = 0
 	
 func finish_event():
-	if current_event != null:
-		events.append(CloneEvent.new(current_event, duration))
+	events.append(CloneEvent.new(current_event, duration))
 		
 func reset():
 	events = []

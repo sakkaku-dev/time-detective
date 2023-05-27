@@ -1,6 +1,6 @@
 class_name CloneEvent
 
-var event: InputEvent
+var event
 var duration: float
 
 func _init(ev, d):

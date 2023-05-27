@@ -35,7 +35,7 @@ func _create_players() -> Array[Player]:
 	var players: Array[Player] = []
 	for clone in clones:
 		var p = player_scene.instantiate()
-		p.events = clone as Array[CloneEvent]
+		p.events = clone.duplicate() as Array[CloneEvent]
 		players.append(p)
 	
 	main_player = player_scene.instantiate() as Player
@@ -51,4 +51,5 @@ func travel_back():
 	recorder.finish_event()
 	clones.append(recorder.events)
 	recorder.reset()
+	main_player = null
 	start_current_level()

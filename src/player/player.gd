@@ -24,8 +24,10 @@ func _ready():
 		hand.disable_highlight = false
 
 func _process_event(ev: CloneEvent):
-	if ev != null:
+	if ev.event != null:
 		input.handle_input(ev.event)
+	
+	if not events.is_empty():
 		get_tree().create_timer(ev.duration).timeout.connect(func(): _process_event(events.pop_front()))
 
 func is_main_player() -> bool:
