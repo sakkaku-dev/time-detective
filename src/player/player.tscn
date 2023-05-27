@@ -1,7 +1,8 @@
-[gd_scene load_steps=11 format=3 uid="uid://dhj5flkbbys7n"]
+[gd_scene load_steps=13 format=3 uid="uid://dhj5flkbbys7n"]
 
 [ext_resource type="Texture2D" uid="uid://tgkbde0fc35r" path="res://assets/Ame.png" id="1_fim18"]
 [ext_resource type="Script" path="res://src/player/player.gd" id="1_k2m5v"]
+[ext_resource type="Script" path="res://shared/items/Hand.gd" id="4_7jl8w"]
 [ext_resource type="Script" path="res://addons/input-system/PlayerInput.gd" id="4_bejv0"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_if4xn"]
@@ -22,6 +23,23 @@ tracks/0/keys = {
 "values": [9]
 }
 
+[sub_resource type="Animation" id="Animation_ywtgv"]
+resource_name = "fall"
+length = 0.2
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [10, 11]
+}
+
 [sub_resource type="Animation" id="Animation_54n5s"]
 resource_name = "idle"
 length = 0.7
@@ -37,21 +55,6 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [0, 1]
-}
-
-[sub_resource type="Animation" id="Animation_o6uw3"]
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.166667, 0.333333, 0.5, 0.666667, 0.833333),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
-"update": 1,
-"values": [2, 3, 4, 5, 6, 7]
 }
 
 [sub_resource type="Animation" id="Animation_blg3l"]
@@ -71,9 +74,7 @@ tracks/0/keys = {
 "values": [8, 9]
 }
 
-[sub_resource type="Animation" id="Animation_ywtgv"]
-resource_name = "fall"
-length = 0.2
+[sub_resource type="Animation" id="Animation_o6uw3"]
 loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -82,10 +83,10 @@ tracks/0/path = NodePath("Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1),
-"transitions": PackedFloat32Array(1, 1),
+"times": PackedFloat32Array(0, 0.166667, 0.333333, 0.5, 0.666667, 0.833333),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
 "update": 1,
-"values": [10, 11]
+"values": [2, 3, 4, 5, 6, 7]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_gubwd"]
@@ -97,18 +98,23 @@ _data = {
 "run": SubResource("Animation_o6uw3")
 }
 
-[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("input", "anim", "sprite")]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5niko"]
+size = Vector2(20, 24)
+
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("input", "anim", "sprite", "hand")]
 collision_layer = 2
 script = ExtResource("1_k2m5v")
 input = NodePath("PlayerInput")
 anim = NodePath("AnimationPlayer")
 sprite = NodePath("Sprite2D")
+hand = NodePath("Hand")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, 11)
+position = Vector2(0, -21)
 shape = SubResource("RectangleShape2D_if4xn")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -32)
 texture = ExtResource("1_fim18")
 hframes = 10
 vframes = 2
@@ -121,5 +127,14 @@ libraries = {
 
 [node name="PlayerInput" type="Node" parent="."]
 script = ExtResource("4_bejv0")
+
+[node name="Hand" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 32
+script = ExtResource("4_7jl8w")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hand"]
+position = Vector2(8, -22)
+shape = SubResource("RectangleShape2D_5niko")
 
 [connection signal="just_pressed" from="PlayerInput" to="." method="_on_player_input_just_pressed"]
