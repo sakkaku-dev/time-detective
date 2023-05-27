@@ -8,6 +8,9 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_if4xn"]
 size = Vector2(14, 42)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5niko"]
+size = Vector2(26, 40)
+
 [sub_resource type="Animation" id="Animation_cy0dg"]
 length = 0.001
 tracks/0/type = "value"
@@ -98,16 +101,13 @@ _data = {
 "run": SubResource("Animation_o6uw3")
 }
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_5niko"]
-size = Vector2(20, 24)
-
 [node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("input", "anim", "sprite", "hand")]
 collision_layer = 2
 script = ExtResource("1_k2m5v")
 input = NodePath("PlayerInput")
 anim = NodePath("AnimationPlayer")
 sprite = NodePath("Sprite2D")
-hand = NodePath("Hand")
+hand = NodePath("Sprite2D/Hand")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -21)
@@ -120,6 +120,16 @@ hframes = 10
 vframes = 2
 frame = 9
 
+[node name="Hand" type="Area2D" parent="Sprite2D"]
+position = Vector2(0, 32)
+collision_layer = 0
+collision_mask = 32
+script = ExtResource("4_7jl8w")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D/Hand"]
+position = Vector2(6, -22)
+shape = SubResource("RectangleShape2D_5niko")
+
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
 "": SubResource("AnimationLibrary_gubwd")
@@ -127,14 +137,5 @@ libraries = {
 
 [node name="PlayerInput" type="Node" parent="."]
 script = ExtResource("4_bejv0")
-
-[node name="Hand" type="Area2D" parent="."]
-collision_layer = 0
-collision_mask = 32
-script = ExtResource("4_7jl8w")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Hand"]
-position = Vector2(8, -22)
-shape = SubResource("RectangleShape2D_5niko")
 
 [connection signal="just_pressed" from="PlayerInput" to="." method="_on_player_input_just_pressed"]

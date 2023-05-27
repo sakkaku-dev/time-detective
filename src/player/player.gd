@@ -43,5 +43,7 @@ func _physics_process(delta):
 func _on_player_input_just_pressed(ev: InputEvent):
 	if ev.is_action_pressed("jump") and is_on_floor():
 		velocity += Vector2.UP * jump_force
-	elif ev.is_action("interact"):
+	elif ev.is_action_pressed("interact"):
 		hand.interact()
+	elif ev.is_action_pressed("time_travel"):
+		pass 
