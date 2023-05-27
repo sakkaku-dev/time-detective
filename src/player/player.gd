@@ -23,7 +23,10 @@ func _physics_process(delta):
 	if motion != 0:
 		sprite.scale.x = sign(motion)
 	
-	anim.play("idle" if velocity.x == 0 else "run")
+	if is_on_floor():
+		anim.play("idle" if velocity.x == 0 else "run")
+	else:
+		anim.play("jump" if velocity.y < 0 else "fall")
 	
 	if move_and_slide():
 		var collision = get_last_slide_collision()
