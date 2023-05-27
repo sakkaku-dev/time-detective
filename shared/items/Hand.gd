@@ -1,11 +1,14 @@
 class_name Hand extends Area2D
 
+@export var disable_highlight = false
+
 var last_interacted: Interactable
 var closest: Interactable
 
 
 func _ready():
-	connect("area_exited", _on_exit)
+	if not disable_highlight:
+		connect("area_exited", _on_exit)
 
 
 func _on_exit(area):
@@ -25,7 +28,8 @@ func interact():
 
 func _process(_delta):
 	closest = _get_closest_interactable()
-	_update_hightlight()
+	if not disable_highlight:
+		_update_hightlight()
 
 
 func _update_hightlight():

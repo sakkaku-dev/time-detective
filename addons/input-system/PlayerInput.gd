@@ -13,10 +13,6 @@ func _is_joypad_event(event: InputEvent) -> bool:
 	return event is InputEventJoypadButton or event is InputEventJoypadMotion
 
 
-func _unhandled_input(event):
-	handle_input(event)
-
-
 func handle_input(event: InputEvent) -> void:
 	if not is_player_event(event):
 		return

@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="time-detective"
-run/main_scene="res://src/game.tscn"
+run/main_scene="res://src/Start.tscn"
 config/features=PackedStringArray("4.0")
 boot_splash/bg_color=Color(0.101961, 0.101961, 0.101961, 1)
 config/icon="res://icon.png"
@@ -20,8 +20,8 @@ config/icon="res://icon.png"
 
 GameManager="*res://src/GameManager.tscn"
 Env="*res://addons/debug/Env.gd"
-SceneManager="*res://addons/scene-manager/SceneManager.tscn"
 Debug="*res://addons/debug/Debug.tscn"
+SceneManager="*res://addons/scene_manager/SceneManager.tscn"
 
 [debug]
 
@@ -37,7 +37,7 @@ window/size/height=1080
 
 [editor_plugins]
 
-enabled=PackedStringArray()
+enabled=PackedStringArray("res://addons/scene_manager/plugin.cfg")
 
 [importer_defaults]
 

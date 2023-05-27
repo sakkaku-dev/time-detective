@@ -3,7 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://tgkbde0fc35r" path="res://assets/Ame.png" id="1_fim18"]
 [ext_resource type="Script" path="res://src/player/player.gd" id="1_k2m5v"]
 [ext_resource type="Script" path="res://shared/items/Hand.gd" id="4_7jl8w"]
-[ext_resource type="Script" path="res://addons/input-system/PlayerInput.gd" id="4_bejv0"]
+[ext_resource type="Script" path="res://addons/input-system/PlayerInput.gd" id="4_2327n"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_if4xn"]
 size = Vector2(14, 42)
@@ -125,6 +125,7 @@ position = Vector2(0, 32)
 collision_layer = 0
 collision_mask = 32
 script = ExtResource("4_7jl8w")
+disable_highlight = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D/Hand"]
 position = Vector2(6, -22)
@@ -136,6 +137,6 @@ libraries = {
 }
 
 [node name="PlayerInput" type="Node" parent="."]
-script = ExtResource("4_bejv0")
+script = ExtResource("4_2327n")
 
 [connection signal="just_pressed" from="PlayerInput" to="." method="_on_player_input_just_pressed"]

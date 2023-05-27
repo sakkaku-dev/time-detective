@@ -14,6 +14,21 @@ extends CharacterBody2D
 @onready var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 var pushing = false
+var events: Array[CloneEvent] = []
+
+func _ready():
+	if not events.is_empty():
+		_process_event(events.pop_front())
+	
+	if is_main_player():
+		hand.disable_highlight = false
+
+func _process_event(ev: CloneEvent):
+	input.handle_input(ev.event)
+	get_tree().create_timer(ev.duration).timeout.connect(func(): _process_event(events.pop_front()))
+
+func is_main_player() -> bool:
+	return GameManager.main_player == self
 
 func _physics_process(delta):
 	var motion = input.get_action_strength("move_left") - input.get_action_strength("move_right")
