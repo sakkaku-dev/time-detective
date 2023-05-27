@@ -1,7 +1,8 @@
-[gd_scene load_steps=9 format=3 uid="uid://berraaeprdxq3"]
+[gd_scene load_steps=10 format=3 uid="uid://berraaeprdxq3"]
 
 [ext_resource type="PackedScene" uid="uid://dhj5flkbbys7n" path="res://src/player/player.tscn" id="2_46p3c"]
 [ext_resource type="Texture2D" uid="uid://b7rvtc06gjeoh" path="res://assets/BG.png" id="2_pye0y"]
+[ext_resource type="PackedScene" uid="uid://boayityynsuam" path="res://src/props/box.tscn" id="4_nflgi"]
 [ext_resource type="Texture2D" uid="uid://dl3nb1og86cq7" path="res://assets/Tiles64.png" id="4_ol822"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_twk85"]
@@ -290,3 +291,6 @@ remote_path = NodePath("../../Camera2D")
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(-160, -33)
 limit_left = -400
+
+[node name="Box" parent="." instance=ExtResource("4_nflgi")]
+position = Vector2(259, -21)

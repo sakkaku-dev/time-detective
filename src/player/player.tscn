@@ -6,7 +6,7 @@
 [ext_resource type="Script" path="res://addons/input-system/PlayerInput.gd" id="4_bejv0"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_if4xn"]
-size = Vector2(20, 42)
+size = Vector2(14, 42)
 
 [sub_resource type="Animation" id="Animation_cy0dg"]
 length = 0.001
@@ -58,7 +58,7 @@ anim = NodePath("AnimationPlayer")
 sprite = NodePath("Sprite2D")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, 10)
+position = Vector2(0, 11)
 shape = SubResource("RectangleShape2D_if4xn")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

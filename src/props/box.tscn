@@ -1,0 +1,16 @@
+[gd_scene load_steps=4 format=3 uid="uid://boayityynsuam"]
+
+[ext_resource type="Script" path="res://src/props/Pushable.gd" id="1_43ygr"]
+[ext_resource type="Texture2D" uid="uid://djm3k8v2m0ylx" path="res://assets/Props_Box.png" id="1_decdn"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_51v33"]
+size = Vector2(36, 28)
+
+[node name="Box" type="CharacterBody2D"]
+script = ExtResource("1_43ygr")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_decdn")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_51v33")

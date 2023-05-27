@@ -11,10 +11,13 @@ extends CharacterBody2D
 
 @onready var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
+var pushing = false
+
 func _physics_process(delta):
 	var motion = input.get_action_strength("move_left") - input.get_action_strength("move_right")
+	var speed_multiplier = 0.7 if pushing else 1.0
 	
-	velocity.x = move_toward(velocity.x, motion * speed, accel * delta)
+	velocity.x = move_toward(velocity.x, motion * speed * speed_multiplier, accel * delta)
 	velocity += Vector2.DOWN * gravity * delta
 	
 	if motion != 0:
@@ -22,8 +25,15 @@ func _physics_process(delta):
 	
 	anim.play("idle" if velocity.x == 0 else "run")
 	
-	
-	move_and_slide()
+	if move_and_slide():
+		var collision = get_last_slide_collision()
+		var collider = collision.get_collider()
+		
+		if is_on_floor() and collider is Pushable and collision.get_normal().x == -motion:
+			collider.apply_force(motion * speed * 0.3)
+			pushing = true
+	else:
+		pushing = false
 
 
 func _on_player_input_just_pressed(ev: InputEvent):
