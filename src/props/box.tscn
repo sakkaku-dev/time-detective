@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://djm3k8v2m0ylx" path="res://assets/Props_Box.png" id="1_decdn"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_51v33"]
-size = Vector2(36, 28)
+size = Vector2(31, 28)
 
 [node name="Box" type="CharacterBody2D"]
 script = ExtResource("1_43ygr")
@@ -13,4 +13,5 @@ script = ExtResource("1_43ygr")
 texture = ExtResource("1_decdn")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-2.5, 0)
 shape = SubResource("RectangleShape2D_51v33")

@@ -1,10 +1,11 @@
-[gd_scene load_steps=11 format=3 uid="uid://dqfg663cv2j8t"]
+[gd_scene load_steps=12 format=3 uid="uid://dqfg663cv2j8t"]
 
 [ext_resource type="Texture2D" uid="uid://b7rvtc06gjeoh" path="res://assets/BG.png" id="1_d0b38"]
 [ext_resource type="PackedScene" uid="uid://blxayvpjwmfd6" path="res://src/props/lever.tscn" id="1_m4mxi"]
 [ext_resource type="PackedScene" uid="uid://b1nsomhggddoe" path="res://src/props/gate.tscn" id="2_vka6r"]
 [ext_resource type="Texture2D" uid="uid://dl3nb1og86cq7" path="res://assets/Tiles64.png" id="2_y4koo"]
 [ext_resource type="PackedScene" uid="uid://bbrlgj0ht2o8n" path="res://src/props/next_level.tscn" id="5_sww1l"]
+[ext_resource type="PackedScene" uid="uid://boayityynsuam" path="res://src/props/box.tscn" id="6_jj1l7"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_twk85"]
 texture = ExtResource("1_d0b38")
@@ -302,3 +303,6 @@ position = Vector2(210, -32)
 
 [node name="NextLevel" parent="." instance=ExtResource("5_sww1l")]
 position = Vector2(564, -30)
+
+[node name="Box" parent="." instance=ExtResource("6_jj1l7")]
+position = Vector2(0, -21)
