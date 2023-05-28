@@ -26,6 +26,7 @@ var state = AIR
 var events: Array[CloneEvent] = []
 var pushing_collider = null
 var push_delta_x = 0
+var motion = Vector2.ZERO
 
 func _ready():
 	if not events.is_empty():
@@ -45,6 +46,14 @@ func is_main_player() -> bool:
 	return GameManager.main_player == self
 
 func _physics_process(delta):
+	motion = _get_motion()
+	
+	if motion.x != 0:
+		sprite.scale.x = sign(motion.x)
+		
+	if not is_on_floor():
+		state = AIR
+	
 	match state:
 		MOVE: _move(delta)
 		PUSH: _push(delta)
@@ -59,9 +68,6 @@ func _air(delta):
 	var motion = _get_motion()
 	velocity.x = move_toward(velocity.x, motion.x * speed, air_accel * delta)
 	
-	if motion.x != 0:
-		sprite.scale.x = sign(motion.x)
-	
 	anim.play("jump" if velocity.y < 0 else "fall")
 	velocity += Vector2.DOWN * gravity * delta
 	
@@ -75,30 +81,24 @@ func _jump():
 	state = AIR
 
 func _push(delta):
-	var motion = _get_motion()
-	_grounded(motion)
-	
 	if not push_cast.is_colliding():
 		state = MOVE
 	elif sign(motion.x) != sign(push_delta_x):
+		# TODO: fix multiple player pushing
 		if motion.x != 0:
 			anim.play("push_move")
 		else:
-			anim.pause()
-			if sprite.frame == 13:
-				sprite.frame = 14
+			anim.play("push_idle")
 		pushing_collider.apply_force(motion.x * push_force)
 		global_position.x = pushing_collider.global_position.x + push_delta_x
 	
-	if not is_on_floor():
-		state = AIR
-	
 func _move(delta):
-	var motion = _get_motion()
 	velocity.x = move_toward(velocity.x, motion.x * speed, accel * delta)
-	_grounded(motion)
 	
-	anim.play("idle" if velocity.x == 0 else "run")
+	if velocity.x == 0:
+		anim.play("idle")
+	elif motion.x != 0:
+		anim.play("run")
 	
 	if move_and_slide():
 		var collision = get_last_slide_collision()
@@ -107,17 +107,6 @@ func _move(delta):
 			state = PUSH
 			pushing_collider = collider
 			push_delta_x = global_position.x - collider.global_position.x
-	
-#	var platform_vel
-#	if platform_vel:
-#		velocity = get_platform_velocity()
-
-func _grounded(motion: Vector2):
-	if motion.x != 0:
-		sprite.scale.x = sign(motion.x)
-	
-	if not is_on_floor():
-		state = AIR
 
 func _on_player_input_just_pressed(ev: InputEvent):
 	if ev.is_action_pressed("jump") and is_on_floor():

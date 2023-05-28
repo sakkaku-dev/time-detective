@@ -7,12 +7,12 @@ var closest: Interactable
 
 
 func _ready():
-	if not disable_highlight:
-		connect("area_exited", _on_exit)
+	connect("area_exited", _on_exit)
 
 
 func _on_exit(area):
-	area.unhighlight()
+	if not disable_highlight:
+		area.unhighlight()
 
 
 func reinteract():

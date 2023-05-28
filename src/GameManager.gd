@@ -25,6 +25,7 @@ func start_current_level():
 func next_level():
 	current_level += 1
 	clones = []
+	main_player = null
 	start_current_level()
 
 func _unhandled_input(event):
@@ -48,6 +49,10 @@ func _record_event(ev: InputEvent):
 	recorder.record_event(ev)
 
 func travel_back():
+	# Currently loading next level
+	if main_player == null:
+		return
+	
 	recorder.finish_event()
 	clones.append(recorder.events)
 	recorder.reset()
