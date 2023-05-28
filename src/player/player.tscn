@@ -182,3 +182,4 @@ libraries = {
 script = ExtResource("4_2327n")
 
 [connection signal="just_pressed" from="PlayerInput" to="." method="_on_player_input_just_pressed"]
+[connection signal="just_released" from="PlayerInput" to="." method="_on_player_input_just_released"]

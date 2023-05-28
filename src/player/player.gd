@@ -22,11 +22,16 @@ enum {
 
 @onready var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
+const FULL_RESTART_THRESHOLD = 2.0
+
 var state = AIR
 var events: Array[CloneEvent] = []
 var pushing_collider = null
 var push_delta_x = 0
 var motion = Vector2.ZERO
+
+var travel_pressed = 0
+var travel_hold = false
 
 func _ready():
 	if not events.is_empty():
@@ -44,6 +49,13 @@ func _process_event(ev: CloneEvent):
 
 func is_main_player() -> bool:
 	return GameManager.main_player == self
+
+func _process(delta):
+	if travel_hold and is_main_player():
+		travel_pressed += delta
+		if travel_pressed >= FULL_RESTART_THRESHOLD:
+			GameManager.restart_level()
+			travel_hold = false
 
 func _physics_process(delta):
 	motion = _get_motion()
@@ -72,7 +84,6 @@ func _air(delta):
 	velocity += Vector2.DOWN * gravity * delta
 	
 	move_and_slide()
-	
 	if is_on_floor():
 		state = MOVE
 
@@ -114,9 +125,16 @@ func _on_player_input_just_pressed(ev: InputEvent):
 	elif ev.is_action_pressed("interact"):
 		hand.interact()
 	elif ev.is_action_pressed("time_travel"):
-		# still need animation for clones
-		input.disable()
-		velocity = Vector2.ZERO
-		
-		if is_main_player():
-			GameManager.travel_back()
+		travel_pressed = 0
+		travel_hold = true
+
+
+func _on_player_input_just_released(ev: InputEvent):
+	if ev.is_action_released("time_travel") and travel_hold:
+		if travel_pressed < FULL_RESTART_THRESHOLD:
+			# still need animation for clones
+			input.disable()
+			velocity = Vector2.ZERO
+			
+			if is_main_player():
+				GameManager.travel_back()

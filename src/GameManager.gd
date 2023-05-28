@@ -22,11 +22,15 @@ func start_current_level():
 		current_scene.add_child(player)
 		player.global_position = spawn.global_position
 
-func next_level():
-	current_level += 1
+func restart_level():
 	clones = []
 	main_player = null
+	recorder.reset()
 	start_current_level()
+
+func next_level():
+	current_level += 1
+	restart_level()
 
 func _unhandled_input(event):
 	if main_player:
