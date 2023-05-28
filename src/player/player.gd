@@ -108,6 +108,9 @@ func _move(delta):
 			pushing_collider = collider
 			push_delta_x = global_position.x - collider.global_position.x
 	
+#	var platform_vel
+#	if platform_vel:
+#		velocity = get_platform_velocity()
 
 func _grounded(motion: Vector2):
 	if motion.x != 0:
@@ -123,6 +126,8 @@ func _on_player_input_just_pressed(ev: InputEvent):
 		hand.interact()
 	elif ev.is_action_pressed("time_travel"):
 		# still need animation for clones
+		input.disable()
+		velocity = Vector2.ZERO
 		
 		if is_main_player():
 			GameManager.travel_back()
