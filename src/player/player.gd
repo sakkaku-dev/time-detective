@@ -32,6 +32,7 @@ var motion = Vector2.ZERO
 
 var travel_pressed = 0
 var travel_hold = false
+var travelling = false
 
 func _ready():
 	if not events.is_empty():
@@ -96,20 +97,22 @@ func _push(delta):
 		state = MOVE
 	elif sign(motion.x) != sign(push_delta_x):
 		# TODO: fix multiple player pushing
-		if motion.x != 0:
-			anim.play("push_move")
-		else:
-			anim.play("push_idle")
+		if not travelling:
+			if motion.x != 0:
+				anim.play("push_move")
+			else:
+				anim.play("push_idle")
 		pushing_collider.apply_force(motion.x * push_force)
 		global_position.x = pushing_collider.global_position.x + push_delta_x
 	
 func _move(delta):
 	velocity.x = move_toward(velocity.x, motion.x * speed, accel * delta)
 	
-	if velocity.x == 0:
-		anim.play("idle")
-	elif motion.x != 0:
-		anim.play("run")
+	if not travelling:
+		if velocity.x == 0:
+			anim.play("idle")
+		elif motion.x != 0:
+			anim.play("run")
 	
 	if move_and_slide():
 		var collision = get_last_slide_collision()
@@ -131,10 +134,13 @@ func _on_player_input_just_pressed(ev: InputEvent):
 
 func _on_player_input_just_released(ev: InputEvent):
 	if ev.is_action_released("time_travel") and travel_hold:
-		if travel_pressed < FULL_RESTART_THRESHOLD:
-			# still need animation for clones
+		if travel_pressed < FULL_RESTART_THRESHOLD and is_on_floor():
+			travelling = true
 			input.disable()
 			velocity = Vector2.ZERO
+			anim.play("travel")
 			
 			if is_main_player():
-				GameManager.travel_back()
+				GameManager.save_clone_record()
+				await anim.animation_finished
+				GameManager.start_current_level()

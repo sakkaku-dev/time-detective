@@ -52,7 +52,7 @@ func _create_players() -> Array[Player]:
 func _record_event(ev: InputEvent):
 	recorder.record_event(ev)
 
-func travel_back():
+func save_clone_record():
 	# Currently loading next level
 	if main_player == null:
 		return
@@ -61,4 +61,3 @@ func travel_back():
 	clones.append(recorder.events)
 	recorder.reset()
 	main_player = null
-	start_current_level()

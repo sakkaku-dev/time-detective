@@ -1,7 +1,8 @@
-[gd_scene load_steps=15 format=3 uid="uid://dhj5flkbbys7n"]
+[gd_scene load_steps=17 format=3 uid="uid://dhj5flkbbys7n"]
 
-[ext_resource type="Texture2D" uid="uid://tgkbde0fc35r" path="res://assets/Ame.png" id="1_fim18"]
 [ext_resource type="Script" path="res://src/player/player.gd" id="1_k2m5v"]
+[ext_resource type="Texture2D" uid="uid://bp2wgs2fvexs2" path="res://assets/Ame_Char.png" id="2_q7yu3"]
+[ext_resource type="Texture2D" uid="uid://clamm74diug23" path="res://assets/Ame_Effect.png" id="3_44y2f"]
 [ext_resource type="Script" path="res://shared/items/Hand.gd" id="4_7jl8w"]
 [ext_resource type="Script" path="res://addons/input-system/PlayerInput.gd" id="4_2327n"]
 
@@ -25,6 +26,30 @@ tracks/0/keys = {
 "update": 1,
 "values": [9]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Effect:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Effect:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
 
 [sub_resource type="Animation" id="Animation_ywtgv"]
 resource_name = "fall"
@@ -42,6 +67,18 @@ tracks/0/keys = {
 "update": 1,
 "values": [10, 11]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Effect:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
 
 [sub_resource type="Animation" id="Animation_54n5s"]
 resource_name = "idle"
@@ -58,6 +95,18 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [0, 1]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Effect:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
 }
 
 [sub_resource type="Animation" id="Animation_blg3l"]
@@ -93,6 +142,18 @@ tracks/0/keys = {
 "update": 1,
 "values": [12]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Effect:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
 
 [sub_resource type="Animation" id="Animation_4y34v"]
 resource_name = "push_move"
@@ -110,6 +171,18 @@ tracks/0/keys = {
 "update": 1,
 "values": [12, 13, 14]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Effect:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
 
 [sub_resource type="Animation" id="Animation_o6uw3"]
 loop_mode = 1
@@ -125,6 +198,58 @@ tracks/0/keys = {
 "update": 1,
 "values": [2, 3, 4, 5, 6, 7]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Effect:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_gouja"]
+resource_name = "travel"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.7, 0.9, 1.1, 1.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [15, 16, 17, 18, 19]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Effect:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 1.6, 1.7),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 1, 0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Effect:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 1.7),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_gubwd"]
 _data = {
@@ -134,7 +259,8 @@ _data = {
 "jump": SubResource("Animation_blg3l"),
 "push_idle": SubResource("Animation_85vm3"),
 "push_move": SubResource("Animation_4y34v"),
-"run": SubResource("Animation_o6uw3")
+"run": SubResource("Animation_o6uw3"),
+"travel": SubResource("Animation_gouja")
 }
 
 [node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("input", "anim", "sprite", "push_cast", "hand")]
@@ -151,9 +277,16 @@ hand = NodePath("Sprite2D/Hand")
 position = Vector2(0, -21)
 shape = SubResource("RectangleShape2D_if4xn")
 
+[node name="Effect" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(0, -32)
+texture = ExtResource("3_44y2f")
+hframes = 3
+frame = 1
+
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(0, -32)
-texture = ExtResource("1_fim18")
+texture = ExtResource("2_q7yu3")
 hframes = 10
 vframes = 2
 frame = 9
