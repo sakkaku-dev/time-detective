@@ -144,4 +144,4 @@ func _on_player_input_just_released(ev: InputEvent):
 			if is_main_player():
 				GameManager.save_clone_record()
 				await anim.animation_finished
-				GameManager.start_current_level()
+				GameManager.load_level()

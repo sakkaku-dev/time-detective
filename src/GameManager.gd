@@ -2,15 +2,16 @@ extends Node
 
 @export var player_scene: PackedScene
 @export var recorder: InputRecorder
-
-@onready var level_manager: LevelManager = $LevelManager
+@export var level_manager: LevelManager
 
 var current_level = 0
 var main_player: Player
 var clones: Array[Array] = []
 
-func start_current_level():
-	var level_path = level_manager.get_level_path(current_level)
+func load_level(lvl = current_level):
+	current_level = lvl
+	
+	var level_path = level_manager.get_level_path(lvl)
 	if level_path:
 		SceneManager.change_scene(level_path)
 		await SceneManager.scene_loaded
@@ -27,7 +28,7 @@ func restart_level():
 	clones = []
 	main_player = null
 	recorder.reset()
-	start_current_level()
+	load_level()
 
 func next_level():
 	current_level += 1
