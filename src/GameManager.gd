@@ -3,24 +3,25 @@ extends Node
 @export var player_scene: PackedScene
 @export var recorder: InputRecorder
 
-const levels = {
-	0: "res://src/levels/level_0.tscn",
-	1: "res://src/levels/level_1.tscn",
-}
+@onready var level_manager: LevelManager = $LevelManager
 
 var current_level = 0
 var main_player: Player
 var clones: Array[Array] = []
 
 func start_current_level():
-	SceneManager.change_scene("res://src/levels/level_%s.tscn" % current_level)
-	await SceneManager.scene_loaded
+	var level_path = level_manager.get_level_path(current_level)
+	if level_path:
+		SceneManager.change_scene(level_path)
+		await SceneManager.scene_loaded
 	
-	var current_scene = get_tree().current_scene
-	var spawn = current_scene.find_child("Spawn") as Node2D
-	for player in _create_players():
-		current_scene.add_child(player)
-		player.global_position = spawn.global_position
+		var current_scene = get_tree().current_scene
+		var spawn = current_scene.find_child("Spawn") as Node2D
+		for player in _create_players():
+			current_scene.add_child(player)
+			player.global_position = spawn.global_position
+	else:
+		print("Level does not exist")
 
 func restart_level():
 	clones = []

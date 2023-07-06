@@ -134,6 +134,7 @@ func _on_player_input_just_pressed(ev: InputEvent):
 
 func _on_player_input_just_released(ev: InputEvent):
 	if ev.is_action_released("time_travel") and travel_hold:
+		travel_hold = false
 		if travel_pressed < FULL_RESTART_THRESHOLD and is_on_floor():
 			travelling = true
 			input.disable()

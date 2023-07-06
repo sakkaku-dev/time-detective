@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://d0jtxbuvsu15k"]
+[gd_scene load_steps=5 format=3 uid="uid://d0jtxbuvsu15k"]
 
 [ext_resource type="Script" path="res://src/GameManager.gd" id="1"]
 [ext_resource type="PackedScene" uid="uid://dhj5flkbbys7n" path="res://src/player/player.tscn" id="2_aq8sa"]
 [ext_resource type="Script" path="res://src/player/InputRecorder.gd" id="3_kf00f"]
+[ext_resource type="Script" path="res://src/LevelManager.gd" id="4_prbs2"]
 
 [node name="GameManager" type="Node" node_paths=PackedStringArray("recorder")]
 script = ExtResource("1")
@@ -12,3 +13,6 @@ recorder = NodePath("InputRecorder")
 [node name="InputRecorder" type="Node" parent="."]
 script = ExtResource("3_kf00f")
 actions = Array[String](["move_left", "move_right", "jump", "interact", "time_travel"])
+
+[node name="LevelManager" type="Node" parent="."]
+script = ExtResource("4_prbs2")
