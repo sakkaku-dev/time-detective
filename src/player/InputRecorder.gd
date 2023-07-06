@@ -3,6 +3,7 @@ extends Node
 
 @export var actions: Array[String] = []
 
+var recording = false
 var events: Array[CloneEvent] = []
 var current_event = null
 var duration = 0
@@ -30,6 +31,11 @@ func reset():
 	events = []
 	duration = 0
 	current_event = null
+	recording = false
+
+func start():
+	recording = true
 
 func _process(delta):
-	duration += delta
+	if recording:
+		duration += delta

@@ -21,6 +21,8 @@ func load_level(lvl = current_level):
 		for player in _create_players():
 			current_scene.add_child(player)
 			player.global_position = spawn.global_position
+		
+		recorder.start()
 	else:
 		print("Level does not exist")
 
