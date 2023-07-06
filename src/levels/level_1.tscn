@@ -1,10 +1,11 @@
-[gd_scene load_steps=11 format=3 uid="uid://cbiapia1iutep"]
+[gd_scene load_steps=13 format=3 uid="uid://cbiapia1iutep"]
 
 [ext_resource type="Texture2D" uid="uid://b7rvtc06gjeoh" path="res://assets/BG.png" id="1_6w24v"]
 [ext_resource type="PackedScene" uid="uid://b1nsomhggddoe" path="res://src/props/gate.tscn" id="1_awrr3"]
 [ext_resource type="PackedScene" uid="uid://blxayvpjwmfd6" path="res://src/props/lever.tscn" id="2_2f2kl"]
 [ext_resource type="Texture2D" uid="uid://dl3nb1og86cq7" path="res://assets/Tiles64.png" id="2_bckwq"]
 [ext_resource type="PackedScene" uid="uid://bbrlgj0ht2o8n" path="res://src/props/next_level.tscn" id="5_2ly3w"]
+[ext_resource type="PackedScene" uid="uid://bgs8lsp11eooa" path="res://src/props/platform.tscn" id="6_vi4w4"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_twk85"]
 texture = ExtResource("1_6w24v")
@@ -271,6 +272,12 @@ terrain_set_0/terrain_1/color = Color(0.5, 0.4375, 0.25, 1)
 sources/1 = SubResource("TileSetAtlasSource_we1wm")
 sources/0 = SubResource("TileSetAtlasSource_wftkp")
 
+[sub_resource type="Curve2D" id="Curve2D_8j5ms"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, -1, 2, 0, 0, 0, 0, 0, -256, 0, 0, 0, 0, 386, -258)
+}
+point_count = 3
+
 [node name="Level1" type="Node2D"]
 
 [node name="Tiles" type="Node2D" parent="."]
@@ -306,3 +313,9 @@ position = Vector2(472, -35)
 
 [node name="NextLevel" parent="." instance=ExtResource("5_2ly3w")]
 position = Vector2(972, -25)
+
+[node name="Platform" parent="." instance=ExtResource("6_vi4w4")]
+position = Vector2(286, 6)
+curve = SubResource("Curve2D_8j5ms")
+speed_scale = 0.2
+running = true
