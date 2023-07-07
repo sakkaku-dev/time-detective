@@ -64,7 +64,7 @@ func _physics_process(delta):
 	if motion.x != 0:
 		sprite.scale.x = sign(motion.x)
 		
-	if not is_on_floor():
+	if not travelling and not is_on_floor():
 		state = AIR
 	
 	match state:

@@ -1,32 +1,30 @@
+class_name Platform
 extends Path2D
 
-@export var speed_scale := 1.0
+@export var duration := 1.0
 @export var idle_time := 2.0
-@export var running := false
+@export var running := false : set = _set_running
 
-@export var anim: AnimationPlayer
+@onready var follow := $PathFollow2D
 
-var forward = true
+var tw: Tween
 
 func _ready():
-	anim.speed_scale = speed_scale
-	_start_move()
-
-func start():
-	running = true
-	_start_move()
-
-func _on_animation_player_animation_finished(anim_name):
-	await get_tree().create_timer(idle_time).timeout
-	_start_move()
-
-func _start_move():
-	if not running:
-		return
+	tw = create_tween()
+	tw.tween_property(follow, "progress_ratio", 1.0, duration).set_delay(idle_time)
+	tw.chain().tween_property(follow, "progress_ratio", 0.0, duration).set_delay(idle_time)
+	tw.set_loops()
 	
-	if forward:
-		anim.play_backwards("run")
+	_update_anim_state()
+	
+
+func _set_running(value):
+	if running == value: return
+	running = value
+	_update_anim_state()
+
+func _update_anim_state():
+	if running:
+		tw.play()
 	else:
-		anim.play("run")
-	
-	forward = not forward
+		tw.pause()
