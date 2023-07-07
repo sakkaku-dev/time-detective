@@ -6,6 +6,7 @@ enum {
 	PUSH,
 	JUMP,
 	AIR,
+	TRAVEL,
 }
 
 @export var accel = 1000
@@ -32,7 +33,6 @@ var motion = Vector2.ZERO
 
 var travel_pressed = 0
 var travel_hold = false
-var travelling = false
 
 func _ready():
 	if not events.is_empty():
@@ -51,20 +51,13 @@ func _process_event(ev: CloneEvent):
 func is_main_player() -> bool:
 	return GameManager.main_player == self
 
-func _process(delta):
-	if travel_hold and is_main_player():
-		travel_pressed += delta
-		if travel_pressed >= FULL_RESTART_THRESHOLD:
-			GameManager.restart_level()
-			travel_hold = false
-
 func _physics_process(delta):
 	motion = _get_motion()
 	
 	if motion.x != 0:
 		sprite.scale.x = sign(motion.x)
 		
-	if not travelling and not is_on_floor():
+	if state != TRAVEL and not is_on_floor():
 		state = AIR
 	
 	match state:
@@ -72,6 +65,13 @@ func _physics_process(delta):
 		PUSH: _push(delta)
 		JUMP: _jump()
 		AIR: _air(delta)
+		TRAVEL: _travel(delta)
+
+func _travel(delta):
+	if travel_hold and is_main_player():
+		travel_pressed += delta
+		if travel_pressed >= FULL_RESTART_THRESHOLD:
+			GameManager.restart_level()
 
 func _get_motion():
 	var motion_x = input.get_action_strength("move_left") - input.get_action_strength("move_right")
@@ -97,22 +97,20 @@ func _push(delta):
 		state = MOVE
 	elif sign(motion.x) != sign(push_delta_x):
 		# TODO: fix multiple player pushing
-		if not travelling:
-			if motion.x != 0:
-				anim.play("push_move")
-			else:
-				anim.play("push_idle")
+		if motion.x != 0:
+			anim.play("push_move")
+		else:
+			anim.play("push_idle")
 		pushing_collider.apply_force(motion.x * push_force)
 		global_position.x = pushing_collider.global_position.x + push_delta_x
 	
 func _move(delta):
 	velocity.x = move_toward(velocity.x, motion.x * speed, accel * delta)
 	
-	if not travelling:
-		if velocity.x == 0:
-			anim.play("idle")
-		elif motion.x != 0:
-			anim.play("run")
+	if velocity.x == 0:
+		anim.play("idle")
+	elif motion.x != 0:
+		anim.play("run")
 	
 	if move_and_slide():
 		var collision = get_last_slide_collision()
@@ -127,16 +125,17 @@ func _on_player_input_just_pressed(ev: InputEvent):
 		state = JUMP
 	elif ev.is_action_pressed("interact"):
 		hand.interact()
-	elif ev.is_action_pressed("time_travel"):
+	elif ev.is_action_pressed("time_travel") and is_on_floor():
+		state = TRAVEL
 		travel_pressed = 0
 		travel_hold = true
+		anim.play("travel_hold")
 
 
 func _on_player_input_just_released(ev: InputEvent):
 	if ev.is_action_released("time_travel") and travel_hold:
 		travel_hold = false
 		if travel_pressed < FULL_RESTART_THRESHOLD and is_on_floor():
-			travelling = true
 			input.disable()
 			velocity = Vector2.ZERO
 			anim.play("travel")
@@ -145,3 +144,8 @@ func _on_player_input_just_released(ev: InputEvent):
 				GameManager.save_clone_record()
 				await anim.animation_finished
 				GameManager.load_level()
+
+
+func _on_animation_player_animation_finished(anim_name):
+	if anim_name == "travel" and not is_main_player():
+		queue_free()
