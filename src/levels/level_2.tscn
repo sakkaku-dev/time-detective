@@ -316,7 +316,7 @@ gate = NodePath("../Gate2")
 position = Vector2(472, -35)
 
 [node name="NextLevel" parent="." instance=ExtResource("5_8aaun")]
-position = Vector2(947, -164)
+position = Vector2(963, -164)
 
 [node name="PressurePlate" parent="." node_paths=PackedStringArray("platform") instance=ExtResource("6_qud0a")]
 position = Vector2(554, 192)

@@ -7,6 +7,7 @@ enum {
 	JUMP,
 	AIR,
 	TRAVEL,
+	HOLD,
 }
 
 @export var accel = 1000
@@ -33,6 +34,8 @@ var motion = Vector2.ZERO
 
 var travel_pressed = 0
 var travel_hold = false
+
+var holding_obj = null
 
 func _ready():
 	if not events.is_empty():
@@ -120,7 +123,18 @@ func _move(delta):
 			pushing_collider = collider
 			push_delta_x = global_position.x - collider.global_position.x
 
+func holding(obj):
+	state = HOLD
+	holding_obj = obj
+
 func _on_player_input_just_pressed(ev: InputEvent):
+	if state == HOLD:
+		if ev.is_action_pressed("interact"):
+			state = MOVE
+		else:
+			pass
+		return
+	
 	if ev.is_action_pressed("jump") and is_on_floor():
 		state = JUMP
 	elif ev.is_action_pressed("interact"):

@@ -1,7 +1,8 @@
-[gd_scene load_steps=9 format=3 uid="uid://dybab5xn0cqco"]
+[gd_scene load_steps=10 format=3 uid="uid://dybab5xn0cqco"]
 
 [ext_resource type="Script" path="res://src/props/laser.gd" id="1_ko8xr"]
 [ext_resource type="Texture2D" uid="uid://cyxwb26n76unf" path="res://assets/Props_Laser_Head.png" id="1_qspix"]
+[ext_resource type="Script" path="res://src/props/Laser.gd" id="2_l1evg"]
 [ext_resource type="Shader" path="res://shared/shaders/outline.gdshader" id="2_p36qs"]
 [ext_resource type="Texture2D" uid="uid://u6cnq6vg2737" path="res://assets/Props_Laser_Body.png" id="2_so5h6"]
 
@@ -30,13 +31,27 @@ shader_parameter/width = 1.0
 shader_parameter/pattern = 0
 shader_parameter/inside = false
 shader_parameter/add_margins = true
-shader_parameter/enable = true
+shader_parameter/enable = false
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jmwx2"]
 size = Vector2(22, 24)
 
-[node name="Laser" type="Area2D"]
+[node name="Laser" type="Area2D" node_paths=PackedStringArray("sprite", "sprite2")]
+collision_layer = 32
+collision_mask = 0
 script = ExtResource("1_ko8xr")
+sprite = NodePath("Node2D2/Node2D/Sprite2D2")
+sprite2 = NodePath("Node2D2/Sprite2D")
+
+[node name="Laser" type="RayCast2D" parent="." node_paths=PackedStringArray("line")]
+position = Vector2(-15, -22)
+target_position = Vector2(-1000, 0)
+script = ExtResource("2_l1evg")
+line = NodePath("Line2D")
+
+[node name="Line2D" type="Line2D" parent="Laser"]
+points = PackedVector2Array(0, 0, 0, 0)
+width = 2.0
 
 [node name="Node2D2" type="Node2D" parent="."]
 material = SubResource("ShaderMaterial_t8wkj")
