@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://cj2gdo28rsvp6"]
+[gd_scene load_steps=15 format=3 uid="uid://cj2gdo28rsvp6"]
 
 [ext_resource type="Texture2D" uid="uid://b7rvtc06gjeoh" path="res://assets/BG.png" id="1_gnscl"]
 [ext_resource type="Texture2D" uid="uid://dl3nb1og86cq7" path="res://assets/Tiles64.png" id="2_tnu4k"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://bbrlgj0ht2o8n" path="res://src/props/next_level.tscn" id="5_8aaun"]
 [ext_resource type="PackedScene" uid="uid://bgs8lsp11eooa" path="res://src/props/platform.tscn" id="6_eu6jm"]
 [ext_resource type="PackedScene" uid="uid://c0cx6hd02jhy6" path="res://src/props/pressure_plate.tscn" id="6_qud0a"]
+[ext_resource type="PackedScene" uid="uid://dybab5xn0cqco" path="res://src/props/laser.tscn" id="8_utiai"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_twk85"]
 texture = ExtResource("1_gnscl")
@@ -324,3 +325,6 @@ platform = NodePath("../Platform")
 [node name="Platform" parent="." instance=ExtResource("6_eu6jm")]
 position = Vector2(615, 188)
 curve = SubResource("Curve2D_76pdl")
+
+[node name="Laser" parent="." instance=ExtResource("8_utiai")]
+position = Vector2(222, 0)
