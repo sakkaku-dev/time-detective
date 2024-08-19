@@ -315,9 +315,10 @@ _data = {
 "travel_hold": SubResource("Animation_5ivrb")
 }
 
-[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("input", "anim", "sprite", "push_cast", "hand")]
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("input", "anim", "sprite", "push_cast", "hand") groups=["player"]]
 collision_layer = 2
-platform_floor_layers = 4294967041
+platform_on_leave = 1
+platform_floor_layers = 4294901761
 script = ExtResource("1_k2m5v")
 accel = 2000
 air_accel = 1500

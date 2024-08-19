@@ -1,6 +1,11 @@
-[gd_resource type="TileSet" load_steps=3 format=3 uid="uid://cy8oghyd2qfv6"]
+[gd_resource type="TileSet" load_steps=5 format=3 uid="uid://cy8oghyd2qfv6"]
 
+[ext_resource type="PackedScene" uid="uid://c0cx6hd02jhy6" path="res://src/props/pressure_plate.tscn" id="1_2t3if"]
 [ext_resource type="Texture2D" uid="uid://bu1ubjqmv27ud" path="res://assets/Tiles32.png" id="2_2gxtd"]
+
+[sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_d14vs"]
+resource_name = "Objects"
+scenes/1/scene = ExtResource("1_2t3if")
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_a3yax"]
 texture = ExtResource("2_2gxtd")
@@ -156,3 +161,4 @@ terrain_set_0/terrain_0/color = Color(0.5, 0.34375, 0.25, 1)
 terrain_set_0/terrain_1/name = "Platforms"
 terrain_set_0/terrain_1/color = Color(0.5, 0.4375, 0.25, 1)
 sources/2 = SubResource("TileSetAtlasSource_a3yax")
+sources/0 = SubResource("TileSetScenesCollectionSource_d14vs")

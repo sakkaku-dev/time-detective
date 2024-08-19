@@ -1,6 +1,8 @@
 class_name Player
 extends CharacterBody2D
 
+signal died()
+
 enum {
 	MOVE,
 	PUSH,
@@ -24,6 +26,7 @@ enum {
 
 @onready var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 @onready var label = $Label
+@onready var collision_shape_2d: CollisionShape2D = $CollisionShape2D
 
 const FULL_RESTART_THRESHOLD = 2.0
 
@@ -57,6 +60,11 @@ func _process_event(ev: CloneEvent):
 
 func is_main_player() -> bool:
 	return GameManager.main_player == self
+
+func kill():
+	collision_shape_2d.disabled = true
+	died.emit()
+	queue_free()
 
 func _physics_process(delta):
 	motion = _get_motion()

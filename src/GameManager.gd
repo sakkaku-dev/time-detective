@@ -37,7 +37,7 @@ func next_level():
 	restart_level()
 
 func _unhandled_input(event):
-	if main_player:
+	if is_instance_valid(main_player):
 		_record_event(event)
 		main_player.input.handle_input(event)
 
@@ -48,20 +48,31 @@ func _create_players() -> Array[Player]:
 		var p = player_scene.instantiate()
 		p.id = id
 		p.events = clone.duplicate() as Array[CloneEvent]
+		p.died.connect(func(): _kill_future_clones(p.id))
 		players.append(p)
 		id += 1
 	
 	main_player = player_scene.instantiate() as Player
 	main_player.id = id
+	main_player.died.connect(func():
+		_kill_future_clones(main_player.id)
+		await get_tree().create_timer(1.0).timeout
+		restart_level()
+	)
 	players.append(main_player)
 	return players
+
+func _kill_future_clones(id: int):
+	for player in get_tree().get_nodes_in_group("player"):
+		if player.id > id:
+			player.kill()
 
 func _record_event(ev: InputEvent):
 	recorder.record_event(ev)
 
 func save_clone_record():
 	# Currently loading next level
-	if main_player == null:
+	if not is_instance_valid(main_player):
 		return
 	
 	recorder.finish_event()
