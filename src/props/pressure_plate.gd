@@ -3,22 +3,12 @@ extends Area2D
 @export var platform: Platform
 
 @onready var anim := $AnimationPlayer
+@onready var sprite_2d = $Sprite2D
 
-func _process(delta):
-	var is_now_pressed = has_overlapping_bodies()
-	
-	if not platform.running and is_now_pressed:
-		anim.play("pressed")
-		
-	if platform.running and not is_now_pressed:
-		anim.play("unpressed")
-	
-	platform.running = is_now_pressed
+func _ready():
+	body_entered.connect(func(_a): _update_state())
+	body_exited.connect(func(_a): _update_state())
 
-
-func _on_body_entered(body):
-	pass # Replace with function body.
-
-
-func _on_body_exited(body):
-	pass # Replace with function body.
+func _update_state():
+	platform.running = has_overlapping_bodies()
+	sprite_2d.frame = 0 if not platform.running else 1

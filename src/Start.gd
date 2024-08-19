@@ -1,4 +1,4 @@
-extends Menu
+extends Control
 
 @export var level_grid: GridContainer
 

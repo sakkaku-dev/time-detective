@@ -7,7 +7,6 @@ var recording = false
 var events: Array[CloneEvent] = []
 var current_event = null
 var duration = 0
-var last_action = ""
 
 func _get_recording_action(ev: InputEvent):
 	for action in actions:
@@ -19,13 +18,13 @@ func record_event(ev: InputEvent):
 	var action = _get_recording_action(ev)
 	if action == null: return
 	
-	last_action = action
 	finish_event()
 	current_event = ev
 	duration = 0
 	
-func finish_event(release_previous = false):
-	events.append(CloneEvent.new(current_event, duration))
+func finish_event():
+	if current_event:
+		events.append(CloneEvent.new(current_event, duration))
 		
 func reset():
 	events = []
@@ -37,5 +36,5 @@ func start():
 	recording = true
 
 func _process(delta):
-	if recording:
+	if recording and current_event:
 		duration += delta

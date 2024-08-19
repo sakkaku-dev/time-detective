@@ -25,4 +25,3 @@ func list_available_levels():
 		print("Failed to open levels folder")
 
 	return levels
-

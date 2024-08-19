@@ -23,6 +23,7 @@ enum {
 @export var hand: Hand
 
 @onready var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
+@onready var label = $Label
 
 const FULL_RESTART_THRESHOLD = 2.0
 
@@ -34,10 +35,13 @@ var motion = Vector2.ZERO
 
 var travel_pressed = 0
 var travel_hold = false
+var is_traveling := false
 
 var holding_obj = null
+var id := 0
 
 func _ready():
+	label.text = "%s" % id
 	if not events.is_empty():
 		_process_event(events.pop_front())
 	
@@ -71,9 +75,9 @@ func _physics_process(delta):
 		TRAVEL: _travel(delta)
 
 func _travel(delta):
-	if travel_hold and is_main_player():
+	if travel_hold:
 		travel_pressed += delta
-		if travel_pressed >= FULL_RESTART_THRESHOLD:
+		if travel_pressed >= FULL_RESTART_THRESHOLD and is_main_player():
 			GameManager.restart_level()
 
 func _get_motion():
@@ -128,6 +132,7 @@ func holding(obj):
 	holding_obj = obj
 
 func _on_player_input_just_pressed(ev: InputEvent):
+	print("[Player %s] Event pressed %s" % [id, ev])
 	if state == HOLD:
 		if ev.is_action_pressed("interact"):
 			state = MOVE
@@ -147,18 +152,24 @@ func _on_player_input_just_pressed(ev: InputEvent):
 
 
 func _on_player_input_just_released(ev: InputEvent):
+	print("[Player %s] Event released %s" % [id, ev])
 	if ev.is_action_released("time_travel") and travel_hold:
 		travel_hold = false
 		if travel_pressed < FULL_RESTART_THRESHOLD and is_on_floor():
-			input.disable()
-			velocity = Vector2.ZERO
-			anim.play("travel")
-			
-			if is_main_player():
-				GameManager.save_clone_record()
-				await anim.animation_finished
-				GameManager.load_level()
+			_start_travel()
 
+func _start_travel():
+	if is_traveling: return
+	
+	is_traveling = true
+	input.disable()
+	velocity = Vector2.ZERO
+	anim.play("travel")
+	
+	if is_main_player():
+		GameManager.save_clone_record()
+		await anim.animation_finished
+		GameManager.load_level()
 
 func _on_animation_player_animation_finished(anim_name):
 	if anim_name == "travel" and not is_main_player():

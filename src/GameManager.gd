@@ -38,18 +38,21 @@ func next_level():
 
 func _unhandled_input(event):
 	if main_player:
+		_record_event(event)
 		main_player.input.handle_input(event)
 
 func _create_players() -> Array[Player]:
+	var id := 1
 	var players: Array[Player] = []
 	for clone in clones:
 		var p = player_scene.instantiate()
+		p.id = id
 		p.events = clone.duplicate() as Array[CloneEvent]
 		players.append(p)
+		id += 1
 	
 	main_player = player_scene.instantiate() as Player
-	main_player.input.just_pressed.connect(_record_event)
-	main_player.input.just_released.connect(_record_event)
+	main_player.id = id
 	players.append(main_player)
 	return players
 
