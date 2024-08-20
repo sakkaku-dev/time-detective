@@ -17,7 +17,7 @@ func load_level(lvl = current_level):
 		await SceneManager.scene_loaded
 	
 		var current_scene = get_tree().current_scene
-		var spawn = current_scene.find_child("Spawn") as Node2D
+		var spawn = get_tree().get_first_node_in_group("spawn") as Node2D
 		for player in _create_players():
 			current_scene.add_child(player)
 			player.global_position = spawn.global_position

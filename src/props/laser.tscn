@@ -1,10 +1,11 @@
-[gd_scene load_steps=23 format=3 uid="uid://dybab5xn0cqco"]
+[gd_scene load_steps=24 format=3 uid="uid://dybab5xn0cqco"]
 
 [ext_resource type="Script" path="res://src/props/laser.gd" id="1_ko8xr"]
 [ext_resource type="Texture2D" uid="uid://c4tuek2oppmbr" path="res://assets/Props_Laser_Head.png" id="1_qspix"]
 [ext_resource type="Texture2D" uid="uid://130eo0ohnchb" path="res://assets/SoftCircle.png" id="2_ban8m"]
 [ext_resource type="Shader" path="res://shared/shaders/outline.gdshader" id="2_p36qs"]
 [ext_resource type="Texture2D" uid="uid://d0n3p7l7agkoo" path="res://assets/Props_Laser_Body.png" id="2_so5h6"]
+[ext_resource type="Texture2D" uid="uid://vfv1w0kn76kl" path="res://assets/Props_Laser.png" id="6_8t8i6"]
 
 [sub_resource type="Curve" id="Curve_r3skg"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -3.05975, 0.0, 0, 0]
@@ -115,7 +116,7 @@ collision_layer = 0
 collision_mask = 0
 
 [node name="Laser" type="RayCast2D" parent="."]
-position = Vector2(12, -22)
+position = Vector2(-8, 0)
 target_position = Vector2(500, 0)
 collision_mask = 3
 script = ExtResource("1_ko8xr")
@@ -141,6 +142,7 @@ texture = ExtResource("2_ban8m")
 lifetime = 0.5
 
 [node name="Node2D2" type="Node2D" parent="."]
+visible = false
 material = SubResource("ShaderMaterial_t8wkj")
 rotation = -3.14159
 scale = Vector2(1, -1)
@@ -160,5 +162,10 @@ position = Vector2(0, -8)
 texture = ExtResource("2_so5h6")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
 position = Vector2(0, -13)
 shape = SubResource("RectangleShape2D_jmwx2")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(-8, 0)
+texture = ExtResource("6_8t8i6")

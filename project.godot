@@ -40,6 +40,7 @@ enabled=PackedStringArray("res://addons/scene_manager/plugin.cfg")
 [global_group]
 
 player=""
+spawn=""
 
 [importer_defaults]
 

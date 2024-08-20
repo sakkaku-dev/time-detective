@@ -44,6 +44,8 @@ var holding_obj = null
 var id := 0
 
 func _ready():
+	anim.play("RESET")
+	
 	label.text = "%s" % id
 	if not events.is_empty():
 		_process_event(events.pop_front())
@@ -63,10 +65,14 @@ func is_main_player() -> bool:
 
 func kill():
 	collision_shape_2d.disabled = true
+	anim.play("death")
+	await anim.animation_finished
 	died.emit()
 	queue_free()
 
 func _physics_process(delta):
+	if collision_shape_2d.disabled: return
+	
 	motion = _get_motion()
 	
 	if motion.x != 0:

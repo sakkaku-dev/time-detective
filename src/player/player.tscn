@@ -1,13 +1,29 @@
-[gd_scene load_steps=18 format=3 uid="uid://dhj5flkbbys7n"]
+[gd_scene load_steps=23 format=3 uid="uid://dhj5flkbbys7n"]
 
 [ext_resource type="Script" path="res://src/player/player.gd" id="1_k2m5v"]
 [ext_resource type="Texture2D" uid="uid://cv2vexffojgb" path="res://assets/Ame_Char.png" id="2_q7yu3"]
+[ext_resource type="Shader" path="res://src/player/dissolve.gdshader" id="3_2h4hq"]
 [ext_resource type="Texture2D" uid="uid://boyyrnrg622rs" path="res://assets/Ame_Effect.png" id="3_44y2f"]
 [ext_resource type="Script" path="res://shared/items/Hand.gd" id="4_7jl8w"]
 [ext_resource type="Script" path="res://addons/input-system/PlayerInput.gd" id="4_2327n"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_if4xn"]
 size = Vector2(14, 42)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_mg0q6"]
+frequency = 0.1231
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_vq2hf"]
+width = 1024
+noise = SubResource("FastNoiseLite_mg0q6")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_pctml"]
+shader = ExtResource("3_2h4hq")
+shader_parameter/dissolveAmount = 0.0
+shader_parameter/edgeSize = 0.5
+shader_parameter/edgeColor = Color(1, 0.25, 0.25, 1)
+shader_parameter/noiseTiling = 1.0
+shader_parameter/noiseTexture = SubResource("NoiseTexture2D_vq2hf")
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5niko"]
 size = Vector2(26, 40)
@@ -61,6 +77,46 @@ tracks/3/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [false]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Sprite2D:material:shader_parameter/dissolveAmount")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_r0rws"]
+resource_name = "death"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:material:shader_parameter/dissolveAmount")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 1.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [20]
 }
 
 [sub_resource type="Animation" id="Animation_ywtgv"]
@@ -119,6 +175,18 @@ tracks/1/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite2D:material:shader_parameter/dissolveAmount")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
 }
 
 [sub_resource type="Animation" id="Animation_blg3l"]
@@ -305,6 +373,7 @@ tracks/0/keys = {
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_gubwd"]
 _data = {
 "RESET": SubResource("Animation_cy0dg"),
+"death": SubResource("Animation_r0rws"),
 "fall": SubResource("Animation_ywtgv"),
 "idle": SubResource("Animation_54n5s"),
 "jump": SubResource("Animation_blg3l"),
@@ -337,14 +406,15 @@ shape = SubResource("RectangleShape2D_if4xn")
 visible = false
 position = Vector2(0, -32)
 texture = ExtResource("3_44y2f")
-hframes = 3
+hframes = 4
 frame = 1
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_pctml")
 position = Vector2(0, -32)
 texture = ExtResource("2_q7yu3")
 hframes = 10
-vframes = 2
+vframes = 3
 frame = 9
 
 [node name="PushCast" type="RayCast2D" parent="Sprite2D"]
