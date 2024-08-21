@@ -44,6 +44,7 @@ var holding_obj = null
 var id := 0
 
 func _ready():
+	material = material.duplicate()
 	anim.play("RESET")
 	
 	label.text = "%s" % id

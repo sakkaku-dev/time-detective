@@ -4,9 +4,12 @@ extends Node
 @export var recorder: InputRecorder
 @export var level_manager: LevelManager
 
-var current_level = 0
+var current_level = -1
 var main_player: Player
 var clones: Array[Array] = []
+
+func _ready() -> void:
+	get_tree().create_timer(0.1).timeout.connect(func(): _spawn_player())
 
 func load_level(lvl = current_level):
 	current_level = lvl
@@ -15,16 +18,19 @@ func load_level(lvl = current_level):
 	if level_path:
 		SceneManager.change_scene(level_path)
 		await SceneManager.scene_loaded
-	
-		var current_scene = get_tree().current_scene
-		var spawn = get_tree().get_first_node_in_group("spawn") as Node2D
+		_spawn_player()
+	else:
+		print("Level does not exist")
+
+func _spawn_player():
+	var current_scene = get_tree().current_scene
+	var spawn = get_tree().get_first_node_in_group("spawn") as Node2D
+	if spawn:
 		for player in _create_players():
 			current_scene.add_child(player)
 			player.global_position = spawn.global_position
 		
 		recorder.start()
-	else:
-		print("Level does not exist")
 
 func restart_level():
 	clones = []

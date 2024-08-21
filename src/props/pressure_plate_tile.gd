@@ -11,5 +11,6 @@ func _ready():
 	pressure_plate.body_exited.connect(func(_a): _update_state())
 
 func _update_state():
-	platform.running = pressure_plate.has_overlapping_bodies()
-	sprite_2d.frame = 0 if not platform.running else 1
+	if platform:
+		platform.running = pressure_plate.has_overlapping_bodies()
+		sprite_2d.frame = 0 if not platform.running else 1
