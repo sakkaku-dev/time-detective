@@ -1,5 +1,6 @@
 extends Node
 
+signal paused(pause: bool)
 signal main_player_changed()
 
 @export var player_scene: PackedScene
@@ -12,6 +13,9 @@ var clones: Array[Array] = []
 
 func _ready() -> void:
 	get_tree().create_timer(0.1).timeout.connect(func(): _spawn_player())
+
+func toggle_paused(pause = false):
+	paused.emit(pause)
 
 func load_level(lvl = current_level):
 	current_level = lvl

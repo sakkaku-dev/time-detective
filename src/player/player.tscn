@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://dhj5flkbbys7n"]
+[gd_scene load_steps=25 format=3 uid="uid://dhj5flkbbys7n"]
 
 [ext_resource type="Script" path="res://src/player/player.gd" id="1_k2m5v"]
 [ext_resource type="Texture2D" uid="uid://cv2vexffojgb" path="res://assets/Ame_Char.png" id="2_q7yu3"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" path="res://shared/items/Hand.gd" id="4_7jl8w"]
 [ext_resource type="Script" path="res://addons/input-system/PlayerInput.gd" id="4_2327n"]
 [ext_resource type="Script" path="res://src/player/KoyoriTimer.gd" id="7_ibu7h"]
+[ext_resource type="Script" path="res://src/player/clone_count.gd" id="8_tv1cf"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_if4xn"]
 size = Vector2(14, 42)
@@ -451,6 +452,8 @@ libraries = {
 script = ExtResource("4_2327n")
 
 [node name="Label" type="Label" parent="."]
+process_mode = 3
+visible = false
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -465,6 +468,7 @@ grow_vertical = 2
 theme_override_font_sizes/font_size = 10
 text = "0"
 horizontal_alignment = 1
+script = ExtResource("8_tv1cf")
 
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
 [connection signal="just_pressed" from="PlayerInput" to="." method="_on_player_input_just_pressed"]

@@ -1,13 +1,14 @@
-[gd_scene load_steps=6 format=4 uid="uid://danjhr7o1ktiw"]
+[gd_scene load_steps=7 format=4 uid="uid://danjhr7o1ktiw"]
 
 [ext_resource type="PackedScene" uid="uid://dqfg663cv2j8t" path="res://src/levels/level_0.tscn" id="1_7bffi"]
+[ext_resource type="TileSet" uid="uid://cy8oghyd2qfv6" path="res://src/tileset.tres" id="2_h6p3r"]
 [ext_resource type="PackedScene" uid="uid://dybab5xn0cqco" path="res://src/props/laser.tscn" id="2_mud2b"]
 [ext_resource type="PackedScene" uid="uid://bgs8lsp11eooa" path="res://src/props/platform.tscn" id="3_dqalp"]
 [ext_resource type="PackedScene" uid="uid://c0cx6hd02jhy6" path="res://src/props/pressure_plate.tscn" id="4_33b8g"]
 
 [sub_resource type="Curve2D" id="Curve2D_w63qu"]
 _data = {
-"points": PackedVector2Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 250, 0)
+"points": PackedVector2Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 273, 0)
 }
 point_count = 2
 
@@ -18,6 +19,11 @@ tile_map_data = PackedByteArray("AAAMAAQAAgADAAIAAAAMAAMAAgADAAEAAAAMAAIAAgADAAE
 
 [node name="Props" parent="Tiles" index="2"]
 tile_map_data = PackedByteArray("AAD4//7/AAAAAAAABwA=")
+
+[node name="TileMapLayer" type="TileMapLayer" parent="Tiles" index="3"]
+position = Vector2(0, 20)
+tile_map_data = PackedByteArray("AAD9//z/AgADAAMAAAD8//z/AgACAAIAAAD7//z/AgABAAIAAAD7//v/AgABAAEAAAD7//r/AgABAAAAAAD8//r/AgADAAAAAAD8//v/AgAGAAEAAAA=")
+tile_set = ExtResource("2_h6p3r")
 
 [node name="Lever" parent="." index="2"]
 position = Vector2(-44, -121)
@@ -33,10 +39,13 @@ position = Vector2(-168, 48)
 platform = NodePath("../Platform")
 
 [node name="Platform" parent="." index="8" instance=ExtResource("3_dqalp")]
-position = Vector2(-138, -16)
+position = Vector2(-136, -16)
 curve = SubResource("Curve2D_w63qu")
 speed = 0.5
 
 [node name="Laser" parent="." index="9" instance=ExtResource("2_mud2b")]
 position = Vector2(76, -182)
 rotation = 1.57079
+
+[node name="ColorRect" parent="CanvasLayer/Control" index="0"]
+color = Color(1, 1, 1, 0.0196078)
