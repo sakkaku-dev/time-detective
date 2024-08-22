@@ -24,6 +24,10 @@ shader_parameter/dissolveAmount = 0.0
 shader_parameter/edgeSize = 0.5
 shader_parameter/edgeColor = Color(1, 0.25, 0.25, 1)
 shader_parameter/noiseTiling = 1.0
+shader_parameter/color = Color(1, 1, 1, 0.392157)
+shader_parameter/width = 1.0
+shader_parameter/enable = true
+shader_parameter/inside = false
 shader_parameter/noiseTexture = SubResource("NoiseTexture2D_vq2hf")
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5niko"]

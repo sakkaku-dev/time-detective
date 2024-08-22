@@ -1,5 +1,7 @@
 extends Node
 
+signal main_player_changed()
+
 @export var player_scene: PackedScene
 @export var recorder: InputRecorder
 @export var level_manager: LevelManager
@@ -67,6 +69,7 @@ func _create_players() -> Array[Player]:
 			if p.id == main_player.id:
 				if prev:
 					main_player = prev
+					main_player_changed.emit()
 				else:
 					await get_tree().create_timer(1.0).timeout
 					restart_level()

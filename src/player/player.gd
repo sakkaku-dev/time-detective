@@ -47,6 +47,9 @@ var dead = false
 
 func _ready():
 	sprite.material = sprite.material.duplicate()
+	_update_highlight()
+	GameManager.main_player_changed.connect(func(): _update_highlight())
+	
 	anim.play("RESET")
 	
 	label.text = "%s" % id
@@ -56,8 +59,12 @@ func _ready():
 	if is_main_player():
 		hand.disable_highlight = false
 
+func _update_highlight(enable = is_main_player()):
+	var mat = sprite.material as ShaderMaterial
+	mat.set_shader_parameter("enable", enable)
+
 func _process_event(ev: CloneEvent):
-	if id == GameManager.main_player.id:
+	if is_main_player():
 		events.clear()
 		input.reset()
 		return
@@ -73,6 +80,7 @@ func is_main_player() -> bool:
 
 func kill():
 	dead = true
+	_update_highlight(false)
 	collision_shape_2d.disabled = true
 	anim.play("death")
 	await anim.animation_finished
