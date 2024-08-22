@@ -67,11 +67,14 @@ func get_action_strength(key: String) -> float:
 
 	return 0.0
 
+func reset():
+	inputs.clear()
+	action_strength.clear()
+	
 
 func disable(exceptions: Array = []) -> void:
 	self._disabled = true
-	inputs.clear()
-	action_strength.clear()
+	reset()
 	disabled_exception = exceptions
 
 

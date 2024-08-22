@@ -27,6 +27,7 @@ enum {
 @onready var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 @onready var label = $Label
 @onready var collision_shape_2d: CollisionShape2D = $CollisionShape2D
+@onready var koyori_timer: KoyoriTimer = $KoyoriTimer
 
 const FULL_RESTART_THRESHOLD = 2.0
 
@@ -42,9 +43,10 @@ var is_traveling := false
 
 var holding_obj = null
 var id := 0
+var dead = false
 
 func _ready():
-	material = material.duplicate()
+	sprite.material = sprite.material.duplicate()
 	anim.play("RESET")
 	
 	label.text = "%s" % id
@@ -55,6 +57,11 @@ func _ready():
 		hand.disable_highlight = false
 
 func _process_event(ev: CloneEvent):
+	if id == GameManager.main_player.id:
+		events.clear()
+		input.reset()
+		return
+	
 	if ev.event != null:
 		input.handle_input(ev.event)
 	
@@ -65,6 +72,7 @@ func is_main_player() -> bool:
 	return GameManager.main_player == self
 
 func kill():
+	dead = true
 	collision_shape_2d.disabled = true
 	anim.play("death")
 	await anim.animation_finished
@@ -75,7 +83,6 @@ func _physics_process(delta):
 	if collision_shape_2d.disabled: return
 	
 	motion = _get_motion()
-	
 	if motion.x != 0:
 		sprite.scale.x = sign(motion.x)
 		
@@ -135,12 +142,13 @@ func _move(delta):
 		anim.play("run")
 	
 	if move_and_slide():
-		var collision = get_last_slide_collision()
-		var collider = collision.get_collider()
-		if is_on_floor() and collider is Pushable and collision.get_normal().x == -motion.x:
-			state = PUSH
-			pushing_collider = collider
-			push_delta_x = global_position.x - collider.global_position.x
+		pass
+		#var collision = get_last_slide_collision()
+		#var collider = collision.get_collider()
+		#if is_on_floor() and collider is Pushable and collision.get_normal().x == -motion.x:
+			#state = PUSH
+			#pushing_collider = collider
+			#push_delta_x = global_position.x - collider.global_position.x
 
 func holding(obj):
 	state = HOLD
@@ -148,18 +156,12 @@ func holding(obj):
 
 func _on_player_input_just_pressed(ev: InputEvent):
 	print("[Player %s] Event pressed %s" % [id, ev])
-	if state == HOLD:
-		if ev.is_action_pressed("interact"):
-			state = MOVE
-		else:
-			pass
-		return
 	
-	if ev.is_action_pressed("jump") and is_on_floor():
+	if ev.is_action_pressed("jump") and koyori_timer.can_jump(): # TODO: koyori does not work
 		state = JUMP
 	elif ev.is_action_pressed("interact"):
 		hand.interact()
-	elif ev.is_action_pressed("time_travel") and is_on_floor():
+	elif ev.is_action_pressed("time_travel"):
 		state = TRAVEL
 		travel_pressed = 0
 		travel_hold = true
@@ -168,6 +170,7 @@ func _on_player_input_just_pressed(ev: InputEvent):
 
 func _on_player_input_just_released(ev: InputEvent):
 	print("[Player %s] Event released %s" % [id, ev])
+	
 	if ev.is_action_released("time_travel") and travel_hold:
 		travel_hold = false
 		if travel_pressed < FULL_RESTART_THRESHOLD and is_on_floor():

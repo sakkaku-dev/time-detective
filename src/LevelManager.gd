@@ -24,4 +24,5 @@ func list_available_levels():
 	else:
 		print("Failed to open levels folder")
 
+	levels.sort()
 	return levels

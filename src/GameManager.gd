@@ -54,24 +54,38 @@ func _create_players() -> Array[Player]:
 		var p = player_scene.instantiate()
 		p.id = id
 		p.events = clone.duplicate() as Array[CloneEvent]
-		p.died.connect(func(): _kill_future_clones(p.id))
 		players.append(p)
 		id += 1
 	
 	main_player = player_scene.instantiate() as Player
 	main_player.id = id
-	main_player.died.connect(func():
-		_kill_future_clones(main_player.id)
-		await get_tree().create_timer(1.0).timeout
-		restart_level()
-	)
 	players.append(main_player)
+	
+	for p in players:
+		p.died.connect(func():
+			var prev = _kill_future_clones(p.id)
+			if p.id == main_player.id:
+				if prev:
+					main_player = prev
+				else:
+					await get_tree().create_timer(1.0).timeout
+					restart_level()
+		)
+	
 	return players
 
 func _kill_future_clones(id: int):
-	for player in get_tree().get_nodes_in_group("player"):
+	var players = get_tree().get_nodes_in_group("player")
+	players.sort_custom(func(a, b): return b.id > a.id)
+	
+	var first_alive = null
+	for player in players:
 		if player.id > id:
 			player.kill()
+		elif player.id < id and first_alive == null:
+			first_alive = player
+	
+	return first_alive
 
 func _record_event(ev: InputEvent):
 	recorder.record_event(ev)

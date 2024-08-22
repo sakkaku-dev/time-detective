@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://dhj5flkbbys7n"]
+[gd_scene load_steps=24 format=3 uid="uid://dhj5flkbbys7n"]
 
 [ext_resource type="Script" path="res://src/player/player.gd" id="1_k2m5v"]
 [ext_resource type="Texture2D" uid="uid://cv2vexffojgb" path="res://assets/Ame_Char.png" id="2_q7yu3"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://boyyrnrg622rs" path="res://assets/Ame_Effect.png" id="3_44y2f"]
 [ext_resource type="Script" path="res://shared/items/Hand.gd" id="4_7jl8w"]
 [ext_resource type="Script" path="res://addons/input-system/PlayerInput.gd" id="4_2327n"]
+[ext_resource type="Script" path="res://src/player/KoyoriTimer.gd" id="7_ibu7h"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_if4xn"]
 size = Vector2(14, 42)
@@ -397,6 +398,11 @@ anim = NodePath("AnimationPlayer")
 sprite = NodePath("Sprite2D")
 push_cast = NodePath("Sprite2D/PushCast")
 hand = NodePath("Sprite2D/Hand")
+
+[node name="KoyoriTimer" type="Timer" parent="." node_paths=PackedStringArray("player")]
+one_shot = true
+script = ExtResource("7_ibu7h")
+player = NodePath("..")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -21)

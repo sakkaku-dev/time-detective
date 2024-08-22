@@ -23,7 +23,7 @@ var is_casting: bool = false:
 
 
 func _ready():
-	is_casting = false
+	is_casting = true
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.is_pressed():
